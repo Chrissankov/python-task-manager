@@ -15,6 +15,8 @@ def peek(queue: list):
 def is_empty(queue: list):
     return len(queue) == 0  
 
+
+# First Part
 def complete_next_task(queue: list):
     if is_empty(queue):
         return "Can't complete task. Queue is EMPTY."
@@ -28,7 +30,7 @@ def complete_next_task(queue: list):
 
     return queue.pop(highest_priority_index)
 
-# Using Binary Search Algorithm
+# Second Part
 def search_for_task(queue: list, title: str):
     if is_empty(queue):
         return "This title is for sure isn't in the tasks. Queue is EMPTY."
@@ -43,6 +45,8 @@ def search_for_task(queue: list, title: str):
         while j > 0 and titles[j - 1] > titles[j]:
             titles[j - 1], titles[j] = titles[j], titles[j-1]
             j -= 1
+
+    # or directly titles = sorted(titles)
 
     # Binary Search
     low = 0
@@ -62,6 +66,21 @@ def search_for_task(queue: list, title: str):
 
     return "Task with title '" + title + "' not found."
 
+# Third Part
+def sort_tasks(queue: list):
+    sorted_queue = queue[:]
+
+    # Selection Sort
+    for i in range(len(sorted_queue)-1):
+        current_min_index = i
+
+        for j in range(i + 1, len(sorted_queue)):
+            if sorted_queue[j][1] < sorted_queue[current_min_index][1]:
+                current_min_index = j
+        
+        sorted_queue[i], sorted_queue[current_min_index] = sorted_queue[current_min_index], sorted_queue[i]
+
+    return sorted_queue
 
 
 tasks = []
@@ -94,9 +113,11 @@ for i in range(num_tasks):
 
 print("\nAll Tasks in Queue: " + str(tasks))
 
-print("\nCompleted Task: " + str(complete_next_task(tasks)))
+# print("\nCompleted Task: " + str(complete_next_task(tasks)))
 
 print("\nAll Tasks in Queue: " + str(tasks))
 
 
-print(search_for_task(tasks,"Foo"))
+print("\n" + search_for_task(tasks,"Foo"))
+
+print("\nSorted Tasks by Duration: " + str(sort_tasks(tasks)))
